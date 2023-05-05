@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "b3a09948-3582-4a14-b3b3-3b3ffd79978d",
+		"name": "OBJECT (all  data fields)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25832096",
+		"_collection_link": "https://www.postman.com/solar-shuttle-200198/workspace/moneyhub-technical-exercise/collection/25832096-b3a09948-3582-4a14-b3b3-3b3ffd79978d?action=share&creator=25832096&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create object with all fields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.environment.set('id', pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"random_number\", _.random(1, 10));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"name\": \"Apple MacBook Pro 16\",\n   \"data\": {\n      \"year\": 2019,\n      \"price\": 1849.99,\n      \"CPU model\": \"Intel Core i9\",\n      \"Hard disk size\": \"1 TB\",\n      \"guarantee\" : {{random_number}}\n   }\n   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/objects",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single object with all fields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Check guarantee\", function () {",
+							"    var jsonDate = pm.response.json();",
+							"    pm.expect(jsonDate.data.guarantee).to.eql(pm.environment.get(\"random_number\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{host}}/objects/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete object with all fields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/objects/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

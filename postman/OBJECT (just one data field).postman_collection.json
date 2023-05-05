@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "31e1183c-2a86-4903-aa9d-d3ac955decd1",
+		"name": "OBJECT (just one data field)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25832096",
+		"_collection_link": "https://www.postman.com/solar-shuttle-200198/workspace/moneyhub-technical-exercise/collection/25832096-31e1183c-2a86-4903-aa9d-d3ac955decd1?action=share&creator=25832096&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create object just one data field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.environment.set('idSingle', pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"random_number\", _.random(1, 10));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"name\": \"Apple MacBook Pro 16\",\n   \"data\": {\n      \"guarantee\" : {{random_number}}\n   }\n   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/objects",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single object just one data field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							" pm.test(\"Check guarantee\", function () {",
+							"    let jsonDate = pm.response.json();",
+							"    pm.expect(jsonDate.data.guarantee).to.eql(pm.environment.get(\"random_number\"))",
+							" });",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{host}}/objects/{{idSingle}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects",
+						"{{idSingle}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete object just one data field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/objects/{{idSingle}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"objects",
+						"{{idSingle}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
